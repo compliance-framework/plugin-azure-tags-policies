@@ -1,8 +1,6 @@
-# Ensure that the 'dataclassification' tag is defined on the resource
-#
 # METADATA
 # title: Verify Azure VM has data classification tags
-# description: Verifies that password authentication is not enabled for ssh on a machine. This helps prevent unauthorised brute force attacks.
+# description: Verifies that a VM machine has data classification tags.
 # custom:
 #   controls:
 #     - AC-1
@@ -18,7 +16,7 @@ violation[{
     "description": "Virtual Machine should have a data classification tag.",
     "remarks": "Add a tag under 'dataclassification' that is one of the following: 'Public', 'General', 'Confidential', 'Highly Confidential', 'Secret', 'Top Secret', or 'Sensitive'."
 }] {
-    count([m | m := input[_]; m.dataclassification], count_key1)
+    count({key: v | v = input[key]; key == "dataclassification"}, count_key1)
     count_key1 == 0
 }
 
@@ -27,7 +25,7 @@ violation[{
     "description": "Virtual Machine should have a valid data classification tag.",
     "remarks": "Add a tag under 'dataclassification' that is one of the following: 'Public', 'General', 'Confidential', 'Highly Confidential', 'Secret', 'Top Secret', or 'Sensitive'."
 }] {
-    some m in input 
-    m.dataclassification != null
-    not m.dataclassification in valid_values
+    some k, v in input
+    k == "dataclassification"
+    not v in valid_values
 }
