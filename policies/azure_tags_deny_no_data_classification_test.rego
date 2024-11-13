@@ -1,24 +1,17 @@
 package compliance_framework.azure_tags.deny_no_data_classification
 
-import rego.v1
-
-test_valid if {
-    result := data.compliance_framework.azure_tags.deny_no_data_classification.allow with input as {"Name": "dataclassification", "Value": "Public"}
-    result == true
+test_valid {
+    count(violation) == 0 with input as [{"dataclassification": "Public"}]
 }
 
-test_invalid_value if {
-    not data.compliance_framework.azure_tags.deny_no_data_classification.allow with input as {"Name": "dataclassification", "Value": "error"}
+test_invalid_value {
+    count(violation) == 1 with input as [{"dataclassification": "error"}]
 }
 
-test_invalid_name if {
-    not data.compliance_framework.azure_tags.deny_no_data_classification.allow with input as {"Name": "error", "Value": "Confidential"}
+test_invalid_name {
+    count(violation) == 1 with input as [{"error": "Confidential"}]
 }
 
-test_invalid_name_key if {
-    not data.compliance_framework.azure_tags.deny_no_data_classification.allow with input as {"Error": "dataclassification", "Value": "Confidential"}
-}
-
-test_invalid_value_key if {
-    not data.compliance_framework.azure_tags.deny_no_data_classification.allow with input as {"Name": "dataclassification", "Error": "Confidential"}
+test_non_existent {
+    count(violation) == 1 with input as [{"something": "else"}]
 }
