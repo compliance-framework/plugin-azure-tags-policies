@@ -1,8 +1,0 @@
-    input[i].Name == "dataclassification"
-	input[i].Value in ["Public", "General", "Confidential", "Highly Confidential", "Secret", "Top Secret", "Sensitive"]
-
-
-    allow if {
-    input.Name == "dataclassification"
-    input.Value in ["Public", "General", "Confidential", "Highly Confidential", "Secret", "Top Secret", "Sensitive"]
-}
