@@ -23,7 +23,7 @@ violation[{
 violation[{
     "title": "Azure Virtual Machine does not have a valid data classification tag.",
     "description": "Virtual Machine should have a valid data classification tag.",
-    "remarks": "Add a tag under 'dataclassification' that is one of the following: 'Public', 'General', 'Confidential', 'Highly Confidential', 'Secret', 'Top Secret', or 'Sensitive'."
+    "remarks": sprintf("Add a tag under 'dataclassification' that is one of the following: %s", [concat(", ", valid_values)])
 }] {
     some k, v in input
     k == "dataclassification"
