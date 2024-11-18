@@ -14,7 +14,7 @@ valid_values := ["Public", "General", "Confidential", "Highly Confidential", "Se
 violation[{
     "title": "Azure Virtual Machine does not have a data classification tag.",
     "description": "Virtual Machine should have a data classification tag.",
-    "remarks": "Add a tag under 'dataclassification' that is one of the following: 'Public', 'General', 'Confidential', 'Highly Confidential', 'Secret', 'Top Secret', or 'Sensitive'."
+    "remarks": sprintf("Add a tag under 'dataclassification' that is one of the following: %s", [concat(", ", valid_values)])
 }] {
     count({key: v | v = input[key]; key == "dataclassification"}, count_key1)
     count_key1 == 0
